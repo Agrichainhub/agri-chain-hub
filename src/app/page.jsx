@@ -18,7 +18,13 @@ const Homepage = () => {
     <main>
       <div className="hero flex flex-col justify-between h-screen bg-[url(/images/hero-bg.png),linear-gradient(#000,#000)] bg-black overflow-hidden">
         <header className="flex container mx-auto p-4 justify-between items-center text-white">
-          <div className="logo">AgrichainHub</div>
+          <Image
+            src="/images/logo-light.png"
+            alt="logo"
+            width={570}
+            height={94}
+            className="w-32"
+          />
           <nav>
             <ul className="flex items-center gap-4">
               {navLinks.map((link) => (
@@ -174,7 +180,7 @@ const Homepage = () => {
       </h2>
 
       <section className="tomato relative container mx-auto flex justify-around">
-        <div class="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_70%,#000_110%)]"></div>
+        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_70%,#000_110%)]"></div>
         <div className="info">
           <h3 className="text-2xl max-w-md my-4">
             Tomato Disease:{" "}
@@ -225,7 +231,13 @@ const Homepage = () => {
       <hr className="my-3 h-3 bg-gray-300" />
 
       <footer className="p-6 bg-[#0E2604] flex flex-col justify-center items-center gap-4 text-white">
-        <p className="uppercase text-3xl font-bold">Agrichainhub</p>
+        <Image
+          src="/images/logo-light.png"
+          width={570}
+          height={94}
+          alt="logo"
+          className="w-32"
+        />
         <ul className="flex gap-4 text-sm text-gray-200">
           <li>
             <Link className="hover:underline" href="#">
