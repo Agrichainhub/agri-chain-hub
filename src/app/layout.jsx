@@ -6,6 +6,13 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: {
+    template: "AgrichainHub | %s",
+  },
+  description: "A platform where farmers and customers interact",
+};
+
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">

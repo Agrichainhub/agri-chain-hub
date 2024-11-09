@@ -8,6 +8,11 @@ const navLinks = [
   { name: "About", href: "#" },
   { name: "Socials", href: "#" },
 ];
+
+export const metadata = {
+  title: "AgrichainHub | Home",
+  description: "A platform where farmers and customers interact",
+};
 const Homepage = () => {
   return (
     <main>
