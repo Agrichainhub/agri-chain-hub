@@ -1,10 +1,15 @@
 import React from "react";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${inter.className}`}>{children}</body>
     </html>
   );
 };
