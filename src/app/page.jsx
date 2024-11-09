@@ -26,9 +26,11 @@ const Homepage = () => {
             </ul>
           </nav>
           <div className="buttons flex gap-2">
-            <Button variant="ghost">Login</Button>
+            <Button variant="ghost">
+              <Link href="/auth/login">Login</Link>
+            </Button>
             <Button className="rounded-full bg-white text-black hover:bg-white hover:scale-105 transition-all">
-              Signup
+              <Link href="/auth/register">Register</Link>
             </Button>
           </div>
         </header>
@@ -169,7 +171,7 @@ const Homepage = () => {
       </h2>
 
       <section className="tomato relative container mx-auto flex justify-around">
-        <div class="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_70%,#000_110%)]"></div>
+        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_70%,#000_110%)]"></div>
         <div className="info">
           <h3 className="text-2xl max-w-md my-4">
             Tomato Disease:{" "}
