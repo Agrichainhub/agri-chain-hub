@@ -52,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       token.image = existingUser.image;
       token.role = existingUser.role;
       token.username = existingUser.username;
+      token.role = existingUser.role;
 
       return token;
     },

@@ -4,6 +4,8 @@ import AppSidebar from "./app-sidebar";
 import { currentUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { logout } from "@/actions/logout";
+import LogoutButton from "@/components/auth/logout-button";
 
 const DashboardLayout = async ({ children }) => {
   const user = await currentUser();
@@ -12,13 +14,11 @@ const DashboardLayout = async ({ children }) => {
     <SidebarProvider>
       <AppSidebar user={user} />
       <main className="grow">
-        <header className="flex justify-between p-2 border-b border-gray-300">
+        <header className="flex justify-between p-2 border-b border-gray-300 bg-sidebar sticky top-0 z-[9999]">
           <Button variant="outline" size="icon" asChild>
             <SidebarTrigger />
           </Button>
-          <Button variant="outline" size="icon">
-            <LogOut />
-          </Button>
+          <LogoutButton />
         </header>
         {children}
       </main>

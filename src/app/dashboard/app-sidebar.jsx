@@ -34,6 +34,7 @@ const items = [
     title: "Sell",
     url: "/dashboard/sell",
     icon: CircleDollarSign,
+    roles: ["FARMER"], // Only accessible by FARMER
   },
   {
     title: "Buy",
@@ -59,7 +60,6 @@ const AppSidebar = ({ user }) => {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <Card className="flex gap-2 p-2">
-          {/* <User className="h-12 w-12 p-2 border rounded-full" /> */}
           <Avatar>
             <AvatarFallback>
               <User />
@@ -76,16 +76,20 @@ const AppSidebar = ({ user }) => {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items
+                .filter(
+                  (item) => !item.roles || item.roles.includes(user?.role)
+                )
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

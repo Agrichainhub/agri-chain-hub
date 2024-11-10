@@ -1,19 +1,20 @@
 "use client";
 
 import { logout } from "@/actions/logout";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
-const LogoutButton = ({ children }) => {
-  const onClick = () => {
-    logout();
-  };
+const LogoutButton = () => {
   return (
-    <span
-      onClick={onClick}
-      className="cursor-pointer flex justify-center items-center"
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={async () => {
+        await logout();
+      }}
     >
-      {children}
-    </span>
+      <LogOut />
+    </Button>
   );
 };
-
 export default LogoutButton;
