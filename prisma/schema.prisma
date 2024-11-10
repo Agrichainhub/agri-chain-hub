@@ -15,18 +15,18 @@ datasource db {
 
 // User schema for AgriChainHub
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstname String
-  lastname  String
-  username  String
-  email     String   @unique
-  password  String
-  emailVerified      DateTime?
-  image              String?
-  role      UserRole
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profile   Profile?
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstname     String
+  lastname      String
+  username      String
+  email         String    @unique
+  password      String
+  emailVerified DateTime?
+  image         String?
+  role          UserRole
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  profile       Profile?
 
   // Relations
   products Product[] // A farmer's products, empty if customer
@@ -67,11 +67,13 @@ model Product {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   price        Float
-  images       String[]
-  tags         String[]
+  images       String[] // Array to store multiple image URLs
   availability Boolean  @default(true)
   description  String?
-  farmerId     String   @db.ObjectId // Add this attribute
+  quantity     Int // New field for quantity
+  unit         String // New field for unit (e.g., kg, lb)
+  category     String // New field for category (e.g., fruits, vegetables, dairy)
+  farmerId     String   @db.ObjectId
 
   // Relations
   farmer User    @relation(fields: [farmerId], references: [id])

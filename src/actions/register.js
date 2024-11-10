@@ -24,7 +24,7 @@ export const register = async (values) => {
     role,
   } = validatedFields.data;
 
-  console.log(validatedFields.data);
+  // console.log(validatedFields.data);
 
   if (password !== confirmPassword) {
     return { error: "Passwords do not match" };
