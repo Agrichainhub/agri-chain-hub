@@ -29,3 +29,25 @@ export const RegisterSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const ProductSchema = z.object({
+  name: z.string().min(2, {
+    message: "Product name must be at least 2 characters.",
+  }),
+  description: z.string().min(10, {
+    message: "Description must be at least 10 characters.",
+  }),
+  price: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "Price must be a valid number.",
+  }),
+  quantity: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "Quantity must be a valid number.",
+  }),
+  unit: z.string().min(1, {
+    message: "Please select a unit.",
+  }),
+  category: z.string().min(1, {
+    message: "Please select a category.",
+  }),
+  images: z.array(z.string()), // Validation for image URLs
+});
