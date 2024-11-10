@@ -2,6 +2,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }) {
         <SessionProvider session={session}>
           <NextTopLoader color="green" />
           {children}
+          <Toaster />
         </SessionProvider>
       </body>
     </html>
