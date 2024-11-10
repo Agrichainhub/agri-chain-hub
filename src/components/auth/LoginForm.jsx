@@ -108,7 +108,7 @@ const LoginForm = () => {
           <FormSuccess message={success} />
           <Button className="w-full" type="submit" disabled={isPending}>
             <span className="mr-2">Login</span>{" "}
-            {isPending && <ClipLoader color="blue" size={20} />}
+            {isPending && <ClipLoader color="currentColor" size={20} />}
           </Button>
         </form>
       </Form>
