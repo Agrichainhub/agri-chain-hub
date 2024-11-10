@@ -13,6 +13,7 @@ export const metadata = {
   title: "AgrichainHub | Home",
   description: "A platform where farmers and customers interact",
 };
+
 const Homepage = () => {
   return (
     <main>
@@ -37,9 +38,11 @@ const Homepage = () => {
             </ul>
           </nav>
           <div className="buttons flex gap-2">
-            <Button variant="ghost">Login</Button>
+            <Button variant="ghost">
+              <Link href="/auth/login">Login</Link>
+            </Button>
             <Button className="rounded-full bg-white text-black hover:bg-white hover:scale-105 transition-all">
-              Signup
+              <Link href="/auth/register">Register</Link>
             </Button>
           </div>
         </header>
