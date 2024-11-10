@@ -4,6 +4,8 @@ import AppSidebar from "./app-sidebar";
 import { currentUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { logout } from "@/actions/logout";
+import LogoutButton from "@/components/auth/logout-button";
 
 const DashboardLayout = async ({ children }) => {
   const user = await currentUser();
@@ -16,9 +18,7 @@ const DashboardLayout = async ({ children }) => {
           <Button variant="outline" size="icon" asChild>
             <SidebarTrigger />
           </Button>
-          <Button variant="outline" size="icon">
-            <LogOut />
-          </Button>
+          <LogoutButton />
         </header>
         {children}
       </main>
