@@ -4,7 +4,14 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Building, MapPin, Mail, Phone, Link as LinkIcon } from "lucide-react";
+import {
+  Building,
+  MapPin,
+  Mail,
+  Phone,
+  Link as LinkIcon,
+  User,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,8 +48,10 @@ import { updateProfile } from "@/actions/updateProfile";
 import { useRouter } from "next/navigation";
 import { BeatLoader } from "react-spinners";
 import { updateAcount } from "@/actions/updateAccount";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
-const SettingsDashboardPage = ({ user, profile }) => {
+const SettingsDashboardPage = ({ user = {}, profile = {} }) => {
   const [isEmailNotificationsEnabled, setIsEmailNotificationsEnabled] =
     useState(true);
   const [isSmsNotificationsEnabled, setIsSmsNotificationsEnabled] =
@@ -78,24 +87,6 @@ const SettingsDashboardPage = ({ user, profile }) => {
     },
   });
 
-  // Account form schema and form setup
-  const accountFormSchema = z.object({
-    firstname: z.string().min(1, { message: "First name is required." }),
-    lastname: z.string().min(1, { message: "Last name is required." }),
-    username: z
-      .string()
-      .min(2, { message: "Username must be at least 2 characters." }),
-  });
-
-  const accountForm = useForm({
-    resolver: zodResolver(accountFormSchema),
-    defaultValues: {
-      firstname: user?.firstname || "",
-      lastname: user?.lastname || "",
-      username: user?.username || "",
-    },
-  });
-
   const handleProfileSubmit = async (data) => {
     setUpdating(true);
     const res = await updateProfile(data);
@@ -108,37 +99,24 @@ const SettingsDashboardPage = ({ user, profile }) => {
     router.refresh();
   };
 
-  const handleAccountSubmit = async (data) => {
-    setUpdating(true);
-    const res = await updateAcount(data);
-    if (res.error) {
-      toast.error(res.error);
-      setUpdating(false);
-    }
-    toast.success("Updated successfully!");
-    setUpdating(false);
-    router.refresh();
-    toast.success("Updated successfully!");
-  };
-
+  console.log(profile, user);
   return (
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
           <TabsTrigger value="profile">Profile</TabsTrigger>
-          {/* <TabsTrigger value="account">Account</TabsTrigger> */}
+          <TabsTrigger value="business">Business details</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
-        <TabsContent value="profile">
+        <TabsContent value="business">
           <Card>
             <CardHeader>
-              <CardTitle>Profile Settings</CardTitle>
+              <CardTitle>Business Settings</CardTitle>
               <CardDescription>
-                Manage your public profile information. This information will be
-                displayed on your farmer profile page.
+                Edit and manage your farm details.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -160,7 +138,7 @@ const SettingsDashboardPage = ({ user, profile }) => {
                             <Building className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                               className="pl-8"
-                              placeholder="Green Acres Farm"
+                              placeholder="Your farm name"
                               {...field}
                             />
                           </div>
@@ -301,71 +279,76 @@ const SettingsDashboardPage = ({ user, profile }) => {
             </CardContent>
           </Card>
         </TabsContent>
-        {/* <TabsContent value="account">
+        <TabsContent value="profile">
           <Card>
-            <CardHeader>
-              <CardTitle>Account Settings</CardTitle>
-              <CardDescription>
-                Update your account information.
-              </CardDescription>
+            <CardHeader className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="w-32 h-32">
+                  <AvatarImage scr={profile?.image} />
+                  <AvatarFallback className="text-7xl">
+                    {user?.firstname && user?.lastname ? (
+                      user.firstname[0].toUpperCase() +
+                      user.lastname[0].toUpperCase()
+                    ) : (
+                      <User className="w-28 h-28 p-3" />
+                    )}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="info">
+                  <h2 className="name text-lg">{`${user?.firstname ?? ""} ${
+                    user?.lastname ?? ""
+                  }`}</h2>
+                  <p className="username text-muted-foreground text-sm">
+                    @{user?.username}
+                  </p>
+                  <p className="email text-muted-foreground text-sm">
+                    {user?.email}
+                  </p>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
-              <Form {...accountForm}>
-                <form
-                  onSubmit={accountForm.handleSubmit(handleAccountSubmit)}
-                  className="space-y-6"
-                >
-                  <FormField
-                    control={accountForm.control}
-                    name="firstname"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+            <CardContent className="space-y-4">
+              <div className="flex gap-2">
+                <p className="flex grow items-center gap-2">
+                  <span className="font-bold capitalize">Firstname:</span>{" "}
+                  <span className="p-2 border rounded w-full">
+                    {user?.firstname ?? "Error fetching firstname"}
+                  </span>
+                </p>
+                <p className="flex grow items-center gap-2">
+                  <span className="font-bold capitalize">Lastname:</span>{" "}
+                  <span className="p-2 border rounded w-full">
+                    {user?.lastname ?? "Error fetching lastname"}
+                  </span>
+                </p>
+              </div>
+              {Object.entries({
+                email: user?.email,
+                username: user?.username,
+                role: user?.role,
+                ...profile,
+              }).map(([key, value]) => (
+                <p key={key + value} className="flex items-center gap-2">
+                  <span className="font-bold capitalize ">
+                    {key.replace(/([A-Z])/g, " $1").toLowerCase()}:
+                  </span>{" "}
+                  <span className="p-2 border rounded grow">
+                    {value ?? (
+                      <span className="italic text-muted-foreground">None</span>
                     )}
-                  />
-                  <FormField
-                    control={accountForm.control}
-                    name="lastname"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={accountForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                          <Input placeholder="johndoe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    type="submit"
-                    className="w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
-                    disabled={updating}
-                  >
-                    Save Changes {updating && <BeatLoader color="green" />}
-                  </Button>
-                </form>
-              </Form>
+                  </span>
+                </p>
+              ))}
             </CardContent>
+            <CardFooter>
+              <Button asChild>
+                <Link href="/dashboard/settings/edit-profile">
+                  Edit profile
+                </Link>
+              </Button>
+            </CardFooter>
           </Card>
-        </TabsContent> */}
+        </TabsContent>
         <TabsContent value="notifications">
           <Card>
             <CardHeader>

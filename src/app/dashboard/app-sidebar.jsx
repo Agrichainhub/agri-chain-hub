@@ -22,6 +22,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -59,17 +60,19 @@ const AppSidebar = ({ user }) => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <Card className="flex gap-2 p-2">
-          <Avatar>
-            <AvatarFallback>
-              <User />
-            </AvatarFallback>
-          </Avatar>
-          <div className="user-info">
-            <h3 className="font-bold">{user?.username}</h3>
-            <p className="text-xs text-foreground/60">{user?.role}</p>
-          </div>
-        </Card>
+        <Link href="/dashboard/settings">
+          <Card className="flex gap-2 p-2">
+            <Avatar>
+              <AvatarFallback>
+                <User />
+              </AvatarFallback>
+            </Avatar>
+            <div className="user-info">
+              <h3 className="font-bold">{user?.username}</h3>
+              <p className="text-xs text-foreground/60">{user?.role}</p>
+            </div>
+          </Card>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

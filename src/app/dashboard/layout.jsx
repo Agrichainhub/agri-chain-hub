@@ -20,7 +20,7 @@ const DashboardLayout = async ({ children }) => {
     <SidebarProvider>
       <AppSidebar user={user} />
       <main className="grow">
-        <header className="flex justify-between p-2 border-b border-gray-300 bg-sidebar sticky top-0 z-[9999]">
+        <header className="flex justify-between p-2 border-b border-gray-300 bg-sidebar sticky top-0 ">
           <Button variant="outline" size="icon" asChild>
             <SidebarTrigger />
           </Button>
