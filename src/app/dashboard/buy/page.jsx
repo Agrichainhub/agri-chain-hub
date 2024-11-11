@@ -25,11 +25,11 @@ const Buy = async () => {
               <h2 className="text-lg font-semibold mb-1 truncate">
                 {product.name}
               </h2>
-              <p className="text-gray-700 mb-2 line-clamp-1">
+              <p className="text-foreground/60 text-sm mb-2 line-clamp-1">
                 {product.description}
               </p>
               <p className="text-blue-500 font-semibold mb-4">
-                ${product.price}
+                &#8358;{product.price}
               </p>
               <button className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-700 transition">
                 Buy

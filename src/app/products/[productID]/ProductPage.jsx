@@ -27,13 +27,15 @@ const ProductPage = ({ product }) => {
 
           <div className="p-6 md:w-1/2 flex flex-col">
             <h1 className="text-2xl font-bold">{product.name}</h1>
-            <p className="text-gray-600 mb-2">{product.description}</p>
+            <p className="text-foreground/80 mb-2">{product.description}</p>
 
             <div className="flex items-center mb-4">
               <span className="text-xl font-semibold text-green-600 mr-2">
-                ${product.price}
+                &#8358;{product.price}
               </span>
-              <span className="text-gray-500">per {product.unit}</span>
+              <span className="text-foreground/80">
+                per {product.unit ?? 1}
+              </span>
             </div>
 
             <div className="flex items-center mb-4">
@@ -46,14 +48,16 @@ const ProductPage = ({ product }) => {
               >
                 {product.availability ? "Available" : "Out of Stock"}
               </span>
-              <span className="text-gray-500">
-                {product.quantity} {product.unit}s available
+              <span className="text-foreground/80">
+                {product.quantity}{" "}
+                {product.unit > 1 ? product.unit + " units" : "1 unit"}{" "}
+                available
               </span>
             </div>
 
             <div className="mb-6">
               <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                #{product.category}
+                #{product.category ?? "general"}
               </span>
             </div>
 

@@ -67,7 +67,7 @@ const AppSidebar = ({ user }) => {
           </Avatar>
           <div className="user-info">
             <h3 className="font-bold">{user?.username}</h3>
-            <p className="text-xs text-gray-800">{user?.role}</p>
+            <p className="text-xs text-foreground/60">{user?.role}</p>
           </div>
         </Card>
       </SidebarHeader>
