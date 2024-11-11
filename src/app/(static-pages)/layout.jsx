@@ -3,45 +3,12 @@ import Image from "next/image";
 import { Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-
-const navLinks = [
-  { name: "About", href: "/about" },
-  { name: "Socials", href: "#" },
-];
+import Header from "./header";
 
 const StaticLayout = ({ children }) => {
   return (
     <main>
-      <div className="bg-[#0E2604]">
-        <header className="flex container mx-auto p-4 justify-between items-center text-white">
-          <Image
-            src="/images/logo-light.png"
-            alt="logo"
-            width={570}
-            height={94}
-            className="w-32 hidden sm:block"
-          />
-          <nav>
-            <ul className="flex items-center gap-4">
-              {navLinks.map((link) => (
-                <li key={link.name + link.href}>
-                  <Link className="hover:underline" href={link.href}>
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="buttons flex gap-2">
-            <Button variant="ghost">
-              <Link href="/auth/login">Login</Link>
-            </Button>
-            <Button className="rounded-full bg-white text-black hover:bg-white hover:scale-105 transition-all">
-              <Link href="/auth/register">Register</Link>
-            </Button>
-          </div>
-        </header>
-      </div>
+      <Header />
 
       {children}
 
