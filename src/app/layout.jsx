@@ -21,7 +21,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${inter.className} dark`}>
+      <body className={`${inter.className}`}>
         <SessionProvider session={session}>
           <NextTopLoader color="green" />
           {children}
