@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
 
 export const metadata = {
