@@ -18,6 +18,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Card } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
@@ -56,23 +57,32 @@ const items = [
 
 const AppSidebar = ({ user }) => {
   const pathname = usePathname();
+  const { state, openMobile, setOpenMobile } = useSidebar();
+  console.log(state);
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <Link href="/dashboard/settings">
-          <Card className="flex gap-2 p-2">
-            <Avatar>
-              <AvatarFallback>
-                <User />
-              </AvatarFallback>
-            </Avatar>
-            <div className="user-info">
-              <h3 className="font-bold">{user?.username}</h3>
-              <p className="text-xs text-foreground/60">{user?.role}</p>
-            </div>
-          </Card>
-        </Link>
+        {
+          <Link
+            href="/dashboard/settings"
+            className={`${
+              state == "collapsed" && "opacity-0 pointer-events-none"
+            } transition-all`}
+          >
+            <Card className="flex gap-2 p-2">
+              <Avatar>
+                <AvatarFallback>
+                  <User />
+                </AvatarFallback>
+              </Avatar>
+              <div className="user-info">
+                <h3 className="font-bold">{user?.username}</h3>
+                <p className="text-xs text-foreground/60">{user?.role}</p>
+              </div>
+            </Card>
+          </Link>
+        }
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
