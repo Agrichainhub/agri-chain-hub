@@ -16,6 +16,13 @@ export const Header = ({ label }) => {
       >
         <Link href="/">
           <Image
+            src="/images/logo-light.png"
+            width={570}
+            height={94}
+            alt="Agrichainhub logo"
+            className="w-32 "
+          />
+          <Image
             src="/images/logo-dark.png"
             width={570}
             height={94}
