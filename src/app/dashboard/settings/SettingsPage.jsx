@@ -23,13 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
@@ -47,7 +40,6 @@ import { Separator } from "@/components/ui/separator";
 import { updateProfile } from "@/actions/updateProfile";
 import { useRouter } from "next/navigation";
 import { BeatLoader } from "react-spinners";
-import { updateAcount } from "@/actions/updateAccount";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 

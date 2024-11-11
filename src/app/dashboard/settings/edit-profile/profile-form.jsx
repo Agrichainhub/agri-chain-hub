@@ -23,6 +23,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { updateAcount } from "@/actions/updateAccount";
+import { BeatLoader } from "react-spinners";
 
 const EditProfileForm = ({ user, profile }) => {
   const [updating, setUpdating] = useState(false);
