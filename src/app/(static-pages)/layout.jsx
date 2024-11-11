@@ -19,7 +19,7 @@ const StaticLayout = ({ children }) => {
             alt="logo"
             width={570}
             height={94}
-            className="w-32"
+            className="w-32 hidden sm:block"
           />
           <nav>
             <ul className="flex items-center gap-4">
