@@ -8,20 +8,16 @@ AgriConnect is an online platform designed to connect farmers directly with cust
 - **Product Listings**: Farmers can list available products such as fruits, vegetables, dairy, grains, etc., along with details like price, availability, and location.
 - **Search and Filters**: Customers can search for products based on categories, locations, and price ranges.
 - **Direct Messaging**: Customers and farmers can communicate directly via the platform to discuss products, delivery options, or other inquiries.
-- **Secure Payment Gateway**: Facilitates secure online transactions between farmers and customers.
 - **Order Tracking**: Customers can track the status of their orders and deliveries in real-time.
 - **Review and Rating System**: Customers can rate and review farmers and their products, helping others make informed purchasing decisions.
 - **Sustainability Focus**: Promote sustainable farming practices and locally grown produce to encourage eco-friendly consumption.
 
 ## Technologies Used
 
-- **Frontend**: Next.js for a dynamic and responsive user interface
-- **Backend**: --
-- **Database**: --
-- **Payment Integration**: --
-- **Authentication**: --
-- **Cloud Storage**: --
-- **Real-Time Messaging**: --
+- React
+- NextJS
+- Tailwindcss
+- Shadcn-ui
 
 ## How to Use
 
@@ -53,7 +49,7 @@ cd agriconnect
 2. Install dependencies:
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 3. Run the server:
