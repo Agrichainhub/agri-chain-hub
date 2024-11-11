@@ -7,6 +7,12 @@ import { LogOut } from "lucide-react";
 import { logout } from "@/actions/logout";
 import LogoutButton from "@/components/auth/logout-button";
 
+export const metadata = {
+  title: {
+    template: "Agrichainhub | Dashboard - %s",
+  },
+};
+
 const DashboardLayout = async ({ children }) => {
   const user = await currentUser();
 

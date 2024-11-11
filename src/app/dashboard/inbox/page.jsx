@@ -1,5 +1,8 @@
 import React from "react";
 
+export const metadata = {
+  title: "Inbox Messages",
+};
 const Inbox = () => {
   return (
     <div className="m-4 flex justify-center items-center h-[50vh] text-center rounded-lg border-2 border-gray-300 border-dashed">

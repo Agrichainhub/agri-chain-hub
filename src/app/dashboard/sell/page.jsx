@@ -3,6 +3,10 @@ import { db } from "@/lib/db";
 import SellPage from "./SellPage";
 import { currentUser } from "@/lib/auth";
 
+export const metadata = {
+  title: "Sell A Product",
+};
+
 const page = async () => {
   const user = await currentUser();
 
