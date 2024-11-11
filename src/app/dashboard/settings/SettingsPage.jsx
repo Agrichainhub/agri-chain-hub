@@ -117,7 +117,8 @@ const SettingsDashboardPage = ({ user }) => {
             <CardHeader>
               <CardTitle>Account Information</CardTitle>
               <CardDescription>
-                Make changes to your account here. Click save when you're done.
+                Make changes to your account here. Click save when you&apos;re
+                done.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -282,7 +283,7 @@ const SettingsDashboardPage = ({ user }) => {
             <CardHeader>
               <CardTitle>Security</CardTitle>
               <CardDescription>
-                Manage your account's security settings and devices.
+                Manage your account&apos;s security settings and devices.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -299,7 +300,7 @@ const SettingsDashboardPage = ({ user }) => {
               <div className="space-y-1">
                 <h3 className="text-lg font-medium">Password</h3>
                 <p className="text-sm text-muted-foreground">
-                  Change your password or reset it if you've forgotten it.
+                  Change your password or reset it if you&apos;ve forgotten it.
                 </p>
               </div>
               <Separator />
