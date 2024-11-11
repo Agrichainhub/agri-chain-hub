@@ -8,7 +8,7 @@ const Authlayout = ({ children }) => {
         backgroundSize: "cover",
         backgroundAttachment: "fixed",
       }}
-      className="flex items-center min-h-screen justify-center w-full"
+      className="flex items-center min-h-screen justify-center w-full py-5"
     >
       {children}
     </div>
