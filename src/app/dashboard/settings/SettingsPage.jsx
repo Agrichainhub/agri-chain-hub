@@ -4,16 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {
-  Bell,
-  User,
-  Lock,
-  Globe,
-  DollarSign,
-  HelpCircle,
-  AlertTriangle,
-} from "lucide-react";
-
+import { Building, MapPin, Mail, Phone, Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -46,199 +37,335 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { updateProfile } from "@/actions/updateProfile";
+import { useRouter } from "next/navigation";
+import { BeatLoader } from "react-spinners";
+import { updateAcount } from "@/actions/updateAccount";
 
-const SettingsDashboardPage = ({ user }) => {
+const SettingsDashboardPage = ({ user, profile }) => {
   const [isEmailNotificationsEnabled, setIsEmailNotificationsEnabled] =
     useState(true);
   const [isSmsNotificationsEnabled, setIsSmsNotificationsEnabled] =
     useState(false);
 
+  const [updating, setUpdating] = useState(false);
+
+  const router = useRouter();
+
+  // Profile form schema and form setup
   const profileFormSchema = z.object({
+    farmName: z
+      .string()
+      .min(2, { message: "Farm name must be at least 2 characters." }),
+    bio: z.string().max(160).min(4),
+    location: z.string().optional(),
+    contactEmail: z
+      .string()
+      .email({ message: "Please enter a valid email address." }),
+    contactNumber: z.string().optional(),
+    link: z.string().url({ message: "Please enter a valid URL." }).optional(),
+  });
+
+  const profileForm = useForm({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      farmName: profile?.farmName || "",
+      bio: profile?.bio || "",
+      location: profile?.location || "",
+      contactEmail: profile?.contactEmail || "",
+      contactNumber: profile?.contactNumber || "",
+      link: profile?.link || "",
+    },
+  });
+
+  // Account form schema and form setup
+  const accountFormSchema = z.object({
+    firstname: z.string().min(1, { message: "First name is required." }),
+    lastname: z.string().min(1, { message: "Last name is required." }),
     username: z
       .string()
-      .min(2, {
-        message: "Username must be at least 2 characters.",
-      })
-      .max(30, {
-        message: "Username must not be longer than 30 characters.",
-      }),
-    email: z.string().email({
-      message: "Please enter a valid email address.",
-    }),
-    bio: z.string().max(160).min(4),
-    urls: z
-      .array(
-        z.object({
-          value: z.string().url({ message: "Please enter a valid URL." }),
-        })
-      )
-      .optional(),
+      .min(2, { message: "Username must be at least 2 characters." }),
   });
 
-  const defaultValues = {
-    username: user?.username,
-    email: user?.email,
-    role: user?.role,
-    urls: [
-      { value: "https://example.com/myfarm" },
-      { value: "https://twitter.com/johndoefarmer" },
-    ],
+  const accountForm = useForm({
+    resolver: zodResolver(accountFormSchema),
+    defaultValues: {
+      firstname: user?.firstname || "",
+      lastname: user?.lastname || "",
+      username: user?.username || "",
+    },
+  });
+
+  const handleProfileSubmit = async (data) => {
+    setUpdating(true);
+    const res = await updateProfile(data);
+    if (res.error) {
+      toast.error(res.error);
+      setUpdating(false);
+    }
+    toast.success("Updated successfully!");
+    setUpdating(false);
+    router.refresh();
   };
 
-  const form = useForm({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
-  });
-
-  function onSubmit(data) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  const handleAccountSubmit = async (data) => {
+    setUpdating(true);
+    const res = await updateAcount(data);
+    if (res.error) {
+      toast.error(res.error);
+      setUpdating(false);
+    }
+    toast.success("Updated successfully!");
+    setUpdating(false);
+    router.refresh();
+    toast.success("Updated successfully!");
+  };
 
   return (
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
-      <Tabs defaultValue="account" className="space-y-4">
+      <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          {/* <TabsTrigger value="account">Account</TabsTrigger> */}
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
-        <TabsContent value="account">
+        <TabsContent value="profile">
           <Card>
             <CardHeader>
-              <CardTitle>Account Information</CardTitle>
+              <CardTitle>Profile Settings</CardTitle>
               <CardDescription>
-                Make changes to your account here. Click save when you&apos;re
-                done.
+                Manage your public profile information. This information will be
+                displayed on your farmer profile page.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <Form {...form}>
+            <CardContent>
+              <Form {...profileForm}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
+                  onSubmit={profileForm.handleSubmit(handleProfileSubmit)}
+                  className="space-y-6"
                 >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
                   <FormField
-                    control={form.control}
-                    name="username"
+                    control={profileForm.control}
+                    name="farmName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>Farm Name</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="Error fetching username"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Building className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              className="pl-8"
+                              placeholder="Green Acres Farm"
+                              {...field}
+                            />
+                          </div>
                         </FormControl>
                         <FormDescription>
-                          This is your public display name. It can be your real
-                          name or a pseudonym.
+                          The name of your farm or business
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="Error fetching email"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Role</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a role" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="FARMER">FARMER</SelectItem>
-                            <SelectItem value="CUSTOMER">CUSTOMER</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
+                    control={profileForm.control}
                     name="bio"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Bio</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Tell us a little bit about yourself"
-                            className="resize-none"
+                            placeholder="Tell customers about your farm and what you grow..."
+                            className="resize-none min-h-32"
                             {...field}
                           />
                         </FormControl>
+                        <FormDescription>
+                          Write a brief description about your farm and farming
+                          practices
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div>
-                    {form.watch("urls")?.map((_, index) => (
-                      <FormField
-                        control={form.control}
-                        key={index}
-                        name={`urls.${index}.value`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel
-                              className={index !== 0 ? "sr-only" : undefined}
-                            >
-                              URLs
-                            </FormLabel>
-                            <FormDescription
-                              className={index !== 0 ? "sr-only" : undefined}
-                            >
-                              Add links to your website, blog, or social media
-                              profiles.
-                            </FormDescription>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+
+                  <FormField
+                    control={profileForm.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Location</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              className="pl-8"
+                              placeholder="123 Farm Road, Rural County"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>
+                          Your farm&apos;s location or service area
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={profileForm.control}
+                      name="contactEmail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Email</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                              <Input
+                                className="pl-8"
+                                type="email"
+                                placeholder="contact@myfarm.com"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={profileForm.control}
+                      name="contactNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Number</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                              <Input
+                                className="pl-8"
+                                type="tel"
+                                placeholder="+1 (555) 123-4567"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <Button type="submit">Update profile</Button>
+
+                  <FormField
+                    control={profileForm.control}
+                    name="link"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Website</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <LinkIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              className="pl-8"
+                              placeholder="https://www.myfarm.com"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>
+                          Your farm&apos;s website or social media profile
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={updating}
+                  >
+                    Save Changes {updating && <BeatLoader color="green" />}
+                  </Button>
                 </form>
               </Form>
             </CardContent>
           </Card>
         </TabsContent>
+        {/* <TabsContent value="account">
+          <Card>
+            <CardHeader>
+              <CardTitle>Account Settings</CardTitle>
+              <CardDescription>
+                Update your account information.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form {...accountForm}>
+                <form
+                  onSubmit={accountForm.handleSubmit(handleAccountSubmit)}
+                  className="space-y-6"
+                >
+                  <FormField
+                    control={accountForm.control}
+                    name="firstname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={accountForm.control}
+                    name="lastname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={accountForm.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input placeholder="johndoe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="submit"
+                    className="w-full md:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                    disabled={updating}
+                  >
+                    Save Changes {updating && <BeatLoader color="green" />}
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </TabsContent> */}
         <TabsContent value="notifications">
           <Card>
             <CardHeader>

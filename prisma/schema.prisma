@@ -34,12 +34,14 @@ model User {
 }
 
 model Profile {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String  @unique @db.ObjectId
-  farmName    String?
-  description String?
-  location    String? // Location of farm or user
-  contactInfo String?
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String  @unique @db.ObjectId
+  farmName      String?
+  bio           String?
+  location      String?
+  contactEmail  String?
+  contactNumber String?
+  link          String?
 
   // Relations
   user User @relation(fields: [userId], references: [id])
