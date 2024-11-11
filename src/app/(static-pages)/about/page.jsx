@@ -93,8 +93,8 @@ const AboutPage = () => {
           Join Us Today!
         </h2>
         <p className="text-lg text-gray-700 mb-6">
-          Become a part of the sustainable agriculture movement. Whether you're
-          a farmer or a customer, our platform is here to serve you.
+          Become a part of the sustainable agriculture movement. Whether
+          you&apos;re a farmer or a customer, our platform is here to serve you.
         </p>
         <Link href="/auth/register">
           <Button
