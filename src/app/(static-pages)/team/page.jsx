@@ -67,7 +67,7 @@ export default function TeamsPage() {
 
   return (
     <div className="min-h-screen relative">
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px),_linear-gradient(200deg,transparent_50%,#0E2604_50%)] [background-size:16px_16px,100%]"></div>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_8px,transparent_1px),_linear-gradient(200deg,transparent_50%,#0E2604_50%)] [background-size:16px_16px,100%]"></div>
       <div className="max-w-6xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center mb-16 ">
           <h1 className="text-4xl font-bold text-primary sm:text-5xl">
