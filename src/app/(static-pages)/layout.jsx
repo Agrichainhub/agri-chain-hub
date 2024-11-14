@@ -37,7 +37,7 @@ const StaticLayout = ({ children }) => {
             </Link>
           </li>
         </ul>
-        <ul className="flex gap-3 items-center">
+        <ul id="#socials" className="flex gap-3 items-center">
           <li>
             <Link className="hover:underline" href="#">
               <svg
